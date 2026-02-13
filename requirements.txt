@@ -1,0 +1,11 @@
+opencv-python
+pytesseract
+easyocr
+numpy
+pandas
+openpyxl
+pyautogui
+pygetwindow
+keyboard
+paddleocr
+paddlepaddle
