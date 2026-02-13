@@ -1,0 +1,254 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                 NUEVA INTERFAZ GRÁFICA - GUÍA RÁPIDA                      ║
+║            Legend of Ymir OCR Market Extractor - Versión 2.0              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌─ ¿QUÉ CAMBIÓ? ──────────────────────────────────────────────────────────┐
+│                                                                           │
+│  ✨ ANTES (Consola):                                                      │
+│     • Mensajes en ventana negra de comandos                             │
+│     • Difícil de leer y seguir el proceso                               │
+│     • Necesitabas mirar la consola constantemente                       │
+│                                                                           │
+│  ✨ AHORA (Interfaz Gráfica):                                             │
+│     • Ventana bonita y profesional                                      │
+│     • Todos los logs con timestamps y colores                           │
+│     • Barra de progreso visual                                          │
+│     • Botones intuitivos                                                │
+│     • Estado claro en cada momento                                      │
+│     • Sin consola fea de fondo                                          │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ PASO 1: CONFIGURACIÓN INICIAL (Primera vez solamente) ──────────────────┐
+│                                                                           │
+│  1. Abre el juego Legend of Ymir                                         │
+│  2. Ve a cualquiera de los markets (WEMIX o Diamantes)                  │
+│  3. Abre PowerShell o CMD en la carpeta del programa                    │
+│  4. Ejecuta:                                                            │
+│                                                                           │
+│     python select_rois_tk.py                                            │
+│                                                                           │
+│  5. Una ventana mostrará la captura del market                          │
+│  6. Dibuja rectángulos alrededor de:                                    │
+│     • Primera columna: Item (nombre del producto)                       │
+│     • Segunda columna: Price (precio)                                   │
+│     • Tercera columna: Sales (volumen vendido)                          │
+│                                                                           │
+│  7. Se crea automáticamente el archivo "rois.json"                      │
+│  8. ¡LISTO! Ya puedes usar la interfaz gráfica                          │
+│                                                                           │
+│  📌 NOTA: Solo necesitas hacer esto una vez!                            │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ PASO 2: EJECUTAR LA INTERFAZ GRÁFICA ──────────────────────────────────┐
+│                                                                           │
+│  OPCIÓN A - FÁCIL (Recomendado):                                        │
+│  ─────────────────────────────────                                       │
+│  • Haz DOBLE-CLIC en: ejecutar_gui.bat                                  │
+│  • Se abre automáticamente la interfaz gráfica                          │
+│  • Se instalan las dependencias si es necesario                         │
+│                                                                           │
+│  OPCIÓN B - Manual:                                                     │
+│  ──────────────────                                                      │
+│  • Abre PowerShell o CMD en la carpeta del programa                    │
+│  • Ejecuta: python gui_main.py                                          │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ PASO 3: USAR LA INTERFAZ ──────────────────────────────────────────────┐
+│                                                                           │
+│  LAYOUT:                                                                │
+│  ┌─────────────────────────────────────────────────────────────────┐  │
+│  │  Legend of Ymir - OCR Market Extractor                          │  │
+│  ├─────────────────────────────────────────────────────────────────┤  │
+│  │                                                                 │  │
+│  │  📋 Registro de actividades:                                   │  │
+│  │  ┌───────────────────────────────────────────────────────────┐ │  │
+│  │  │ [14:32:45] BIENVENIDO AL EXTRACTOR OCR DE YMIR MARKET     │ │  │
+│  │  │ [14:32:46] ▸ Asegúrese de que:                            │ │  │
+│  │  │ [14:32:46]   1. El juego Legend of Ymir está abierto     │ │  │
+│  │  │ [14:32:46]   2. El archivo rois.json está configurado    │ │  │
+│  │  │ [14:32:47] [*] Buscando ventana del juego...             │ │  │
+│  │  │ [14:32:47] [OK] Ventana encontrada: YmirGL               │ │  │
+│  │  │ [14:32:48] [*] Asegurate de estar en el tab WEMIX        │ │  │
+│  │  │ [14:32:48] [>] Presioná F12 cuando estés listo...        │ │  │
+│  │  │                                                            │ │  │
+│  │  └───────────────────────────────────────────────────────────┘ │  │
+│  │                                                                 │  │
+│  │  Progreso: [████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]           │  │
+│  │                                                                 │  │
+│  │ [Estado: En ejecución...]                                      │  │
+│  │                                                                 │  │
+│  │  [▶ Iniciar] [🗑️ Limpiar] ............. [❌ Salir]            │  │
+│  └─────────────────────────────────────────────────────────────────┘  │
+│                                                                           │
+│  FLUJO DE USO:                                                          │
+│  ─────────────                                                           │
+│                                                                           │
+│  1. Abre la interfaz gráfica (ejecutar_gui.bat)                         │
+│                                                                           │
+│  2. Haz clic en "▶ Iniciar Extracción"                                  │
+│                                                                           │
+│  3. La interfaz verifica:                                               │
+│     • ¿El juego Legend of Ymir está abierto?                          │
+│     • ¿Existe el archivo rois.json?                                    │
+│                                                                           │
+│  4. VES EN LA CONSOLA:                                                  │
+│     "[*] Asegurate de estar en el tab WEMIX"                           │
+│     "[>] Presioná F12 cuando estés listo..."                           │
+│                                                                           │
+│  5. EN EL JUEGO:                                                        │
+│     • Asegúrate de estar en el tab WEMIX del Market                   │
+│     • Presiona F12 en el teclado                                       │
+│     • El programa captura y extrae precios automáticamente             │
+│     • Ves en la interfaz: "[OK] Filas encontradas: 25"               │
+│                                                                           │
+│  6. NUEVAMENTE EN LA CONSOLA:                                           │
+│     "[*] Cambia MANUALMENTE al tab DIAMANTES"                          │
+│     "[>] Presioná F12 cuando estés listo..."                           │
+│                                                                           │
+│  7. EN EL JUEGO:                                                        │
+│     • Clicks en el tab DIAMANTES del Market                            │
+│     • Presiona F12 nuevamente                                          │
+│     • El programa captura y extrae los precios de diamantes            │
+│                                                                           │
+│  8. RESULTADO:                                                          │
+│     ✓ Se genera precios_market.xlsx                                    │
+│     ✓ Ves en la interfaz: "[OK] Proceso finalizado"                    │
+│     ✓ La barra de progreso se detiene                                  │
+│     ✓ Puedes hacer clic en "Iniciar" nuevamente                        │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ INTERPRETAR LOS COLORES DE LOGS ───────────────────────────────────────┐
+│                                                                           │
+│  🟢 VERDE     [*] Información general                                    │
+│  🟢 VERDE     [OK] Operación exitosa                                     │
+│  🟡 NARANJA   [WARN] Advertencia (no es error)                           │
+│  🔴 ROJO      [ERROR] Error importante                                   │
+│  🔵 AZUL      [DEBUG] Información técnica de depuración                  │
+│                                                                           │
+│  Ejemplo:                                                               │
+│  ├─ [*] Inicializando... (azul - información)                          │
+│  ├─ [OK] Listo (verde - éxito)                                          │
+│  ├─ [WARN] Algo pasó pero continuamos (naranja)                         │
+│  └─ [ERROR] Algo falló (rojo)                                           │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ BOTONES ───────────────────────────────────────────────────────────────┐
+│                                                                           │
+│  ▶ INICIAR EXTRACCIÓN                                                   │
+│  └─ Comienza el proceso OCR                                             │
+│     Se deshabilita, cuando está en ejecución                            │
+│                                                                           │
+│  🗑️ LIMPIAR LOGS                                                         │
+│  └─ Borra todos los mensajes del área de logs                           │
+│     Útil después de procesos largos                                     │
+│                                                                           │
+│  ❌ SALIR                                                                │
+│  └─ Cierra la aplicación                                                │
+│     Si hay proceso en ejecución, te pide confirmación                   │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ EJEMPLOS DE SALIDA NORMAL ─────────────────────────────────────────────┐
+│                                                                           │
+│  [14:30:00] ======================================                       │
+│  [14:30:00]  Legend of Ymir - OCR Market Auto                           │
+│  [14:30:00] ======================================                       │
+│  [14:30:00]                                                             │
+│  [14:30:01] [*] Inicializando EasyOCR (primera vez puede tardar)...    │
+│  [14:30:05] [OK] EasyOCR listo                                          │
+│  [14:30:05] [*] Buscando ventana del juego...                           │
+│  [14:30:05] [OK] Ventana encontrada: YmirGL                             │
+│  [14:30:05] [*] Asegurate de estar en el tab WEMIX                      │
+│  [14:30:05] [>] Presioná F12 cuando estés listo...                      │
+│  [14:30:10] [OK] Preparando captura...                                  │
+│  [14:30:11] [OK] Capturando...                                          │
+│  [14:30:12] [DEBUG] Captura: x=100, y=50, w=800, h=600                 │
+│  [14:30:13] [*] Capturando tab WEMIX...                                 │
+│  [14:30:14] [*] Extrayendo items y precios de WEMIX...                  │
+│  [14:30:17] [OK] Filas encontradas: 25                                  │
+│  [14:30:17]     1: item='Potion of Strength', price='100', sales='250'  │
+│  [14:30:17]     2: item='Potion of Health', price='80', sales='350'    │
+│  [14:30:17]     3: item='Mana Scroll', price='120', sales='180'        │
+│  ...                                                                     │
+│  [14:30:18] [*] Cambia MANUALMENTE al tab DIAMANTES                     │
+│  [14:30:18] [>] Presioná F12 cuando estés listo...                      │
+│  [14:30:30] [OK] Preparando captura...                                  │
+│  [14:30:31] [*] Capturando tab DIAMANTES...                             │
+│  [14:30:32] [*] Extrayendo items y precios de DIAMANTES...              │
+│  [14:30:35] [OK] Filas encontradas: 18                                  │
+│  [14:30:36] [*] Guardando en Excel...                                   │
+│  [14:30:36]                                                             │
+│  [14:30:36] ======================================                       │
+│  [14:30:36] [OK] Proceso finalizado                                     │
+│  [14:30:36] [OK] Excel generado: precios_market.xlsx                    │
+│  [14:30:36] [OK] Total filas WEMIX: 25                                  │
+│  [14:30:36] [OK] Total filas DIAMANTES: 18                              │
+│  [14:30:36] ======================================                       │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ SOLUCIÓN DE PROBLEMAS ─────────────────────────────────────────────────┐
+│                                                                           │
+│  ❌ "No se encontró la ventana del juego"                                │
+│     ✓ Asegúrate que Legend of Ymir está abierto                        │
+│     ✓ La ventana debe ser visible en pantalla                          │
+│     ✓ Intenta minimalizar y restaurar el juego                         │
+│                                                                           │
+│  ❌ "Error al cargar rois.json"                                          │
+│     ✓ Ejecuta: python select_rois_tk.py                                │
+│     ✓ Dibuja nuevamente los rectángulos de las columnas               │
+│     ✓ Verifica que rois.json se creó correctamente                    │
+│                                                                           │
+│  ❌ "EasyOCR fallo"                                                      │
+│     ✓ Primera ejecución descarga modelos (puede tardar)               │
+│     ✓ Necesita conexión a internet                                    │
+│     ✓ Los modelos se guardan después, más rápido después              │
+│                                                                           │
+│  ❌ "No se capturó la ventana"                                           │
+│     ✓ Asegúrate que el Market es visible completamente                │
+│     ✓ Intenta cambiar resolución o posición de la ventana             │
+│     ✓ Los debug images están en carpeta "debug_cols/"                 │
+│                                                                           │
+│  ❌ "No funciona ejecutar_gui.bat"                                       │
+│     ✓ Asegúrate que Python 3.8+ está instalado                        │
+│     ✓ Abre PowerShell en la carpeta y ejecuta: python --version       │
+│     ✓ Si no funciona, instala Python desde python.org                 │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ ARCHIVOS GENERADOS ────────────────────────────────────────────────────┐
+│                                                                           │
+│  📄 precios_market.xlsx                                                 │
+│     └─ Excel con todos los precios extraídos                            │
+│        Columns: tipo, item, price, sales, timestamp                    │
+│                                                                           │
+│  📁 debug_cols/                                                          │
+│     ├─ col_item.png (items detectados)                                  │
+│     ├─ col_price.png (precios detectados)                               │
+│     └─ col_sales.png (volumen detectado)                                │
+│        Útil para debuggear si el OCR no funciona bien                  │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                         ¡LISTO A USAR!                                    ║
+║                                                                            ║
+║  Haz doble-clic en: ejecutar_gui.bat                                      ║
+║                                                                            ║
+║  ¡Disfruta el nuevo programa con interfaz gráfica profesional!            ║
+╚════════════════════════════════════════════════════════════════════════════╝

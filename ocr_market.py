@@ -21,9 +21,8 @@ try:
     USE_EASYOCR = True
 except Exception:
     USE_EASYOCR = False
-    print('[ERROR] EasyOCR no disponible. Instalar easyocr y dependencias.')
 
-reader = None
+log_callback = None
 
 EXCEL_PATH = "precios_market.xlsx"
 
@@ -31,16 +30,29 @@ EXCEL_PATH = "precios_market.xlsx"
 USE_PADDLEOCR = False
 USE_PYTESSERACT = False
 paddle_ocr = None
+reader = None
+
+def set_log_callback(callback):
+    """Establece el callback para logs (para GUI)"""
+    global log_callback
+    log_callback = callback
+
+def log_message(msg):
+    """Registra un mensaje. Usa callback si está disponible, sino usa print"""
+    if log_callback:
+        log_callback(msg)
+    else:
+        print(msg)
 
 def esperar_f12(mensaje):
     """Espera a que el usuario presione F12"""
-    print("")
-    print(mensaje)
-    print("[Esperando F12...]")
+    log_message("")
+    log_message(mensaje)
+    log_message("[Esperando F12...]")
     keyboard.wait('f12')
-    print("[OK] Preparando captura...")
+    log_message("[OK] Preparando captura...")
     time.sleep(1)  # Esperar a que se estabilice
-    print("[OK] Capturando...")
+    log_message("[OK] Capturando...")
 
 def obtener_ventana_juego():
     """Detecta la ventana del juego 'YmirGL' (elige la ventana Ymir más grande)."""
@@ -103,11 +115,11 @@ def init_ocr():
     global reader
     if reader is None and USE_EASYOCR:
         try:
-            print("[*] Inicializando EasyOCR (primera vez puede tardar)...")
+            log_message("[*] Inicializando EasyOCR (primera vez puede tardar)...")
             reader = easyocr.Reader(['en'], gpu=False)
-            print("[OK] EasyOCR listo")
+            log_message("[OK] EasyOCR listo")
         except Exception as e:
-            print(f"[WARN] fallo inicializando EasyOCR: {e}")
+            log_message(f"[WARN] fallo inicializando EasyOCR: {e}")
             reader = None
 
 
@@ -216,13 +228,13 @@ def capturar_ventana():
         rw = int(width)
         rh = int(height)
 
-        print(f"[DEBUG] Captura completa ventana: x={rx}, y={ry}, w={rw}, h={rh} (hwnd={hwnd})")
+        log_message(f"[DEBUG] Captura completa ventana: x={rx}, y={ry}, w={rw}, h={rh} (hwnd={hwnd})")
 
         im = pyautogui.screenshot(region=(rx, ry, rw, rh))
         im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
         return im
     except Exception as e:
-        print(f"[ERROR] capturar_ventana fallo: {e}")
+        log_message(f"[ERROR] capturar_ventana fallo: {e}")
         return None
 def extraer_precios(img):
     """Extrae columnas separadas: item, price, sales usando OCR por ROI.
@@ -231,7 +243,7 @@ def extraer_precios(img):
     """
     init_ocr()
     if reader is None:
-        print('[ERROR] EasyOCR no inicializado')
+        log_message('[ERROR] EasyOCR no inicializado')
         return []
 
     h_full, w_full = img.shape[:2]
@@ -259,7 +271,7 @@ def extraer_precios(img):
                         # Formato antiguo: solo X
                         rois_config[col]['x'] = col_cfg
         except Exception as e:
-            print(f'[WARN] Error cargando rois.json: {e}')
+            log_message(f'[WARN] Error cargando rois.json: {e}')
 
     rois = {}
     for col_name in ['item', 'price', 'sales']:
@@ -289,7 +301,7 @@ def extraer_precios(img):
             results = reader.readtext(proc, detail=1, paragraph=False,
                                       allowlist=( '0123456789.,' if col_name != 'item' else 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -_'))
         except Exception as e:
-            print(f"[WARN] EasyOCR fallo en columna {col_name}: {e}")
+            log_message(f"[WARN] EasyOCR fallo en columna {col_name}: {e}")
             results = []
 
         # Save debug image annotated
@@ -369,74 +381,71 @@ def detectar_tipo_market(img):
 # =========================
 
 def main():
-    print("========================================")
-    print(" Legend of Ymir - OCR Market Auto")
-    print("========================================")
-    print()
+    log_message("========================================")
+    log_message(" Legend of Ymir - OCR Market Auto")
+    log_message("========================================")
+    log_message("")
 
     # Inicializar EasyOCR si está disponible
     init_ocr()
-    print()
+    log_message("")
 
     # Detectar ventana
-    print("[*] Buscando ventana del juego...")
+    log_message("[*] Buscando ventana del juego...")
     ventana = obtener_ventana_juego()
     if not ventana:
-        print("[ERROR] No se encontró la ventana del juego")
-        input("Presioná ENTER para salir")
-        exit(1)
+        log_message("[ERROR] No se encontró la ventana del juego")
+        return False
 
-    print(f"[OK] Ventana encontrada: {ventana.title}")
-    print("[*] Asegurate de estar en el tab WEMIX")
+    log_message(f"[OK] Ventana encontrada: {ventana.title}")
+    log_message("[*] Asegurate de estar en el tab WEMIX")
     esperar_f12("[>] Presioná F12 cuando estés listo...")
 
     # Capturar WEMIX
-    print("[*] Capturando tab WEMIX...")
+    log_message("[*] Capturando tab WEMIX...")
     img_wemix = capturar_ventana()
     if img_wemix is None:
-        print("[ERROR] No se pudo capturar la ventana")
-        input("Presioná ENTER para salir")
-        exit(1)
+        log_message("[ERROR] No se pudo capturar la ventana")
+        return False
 
-    print("[*] Extrayendo items y precios de WEMIX...")
+    log_message("[*] Extrayendo items y precios de WEMIX...")
     items_wemix = extraer_precios(img_wemix)
-    print(f"[OK] Filas encontradas: {len(items_wemix)}")
+    log_message(f"[OK] Filas encontradas: {len(items_wemix)}")
     if items_wemix:
         # si el resultado es una lista de dicts (structured), mostrar columnas
         if isinstance(items_wemix[0], dict):
             for i, row in enumerate(items_wemix[:5]):
-                print(f"    {i+1}: item='{row.get('item','')[:40]}', price='{row.get('price','')}', sales='{row.get('sales','')}'")
+                log_message(f"    {i+1}: item='{row.get('item','')[:40]}', price='{row.get('price','')}', sales='{row.get('sales','')}'")
         else:
             for i, item in enumerate(items_wemix[:3]):
-                print(f"    {i+1}: {item[:120]}...")  # Mostrar los primeros 3
+                log_message(f"    {i+1}: {item[:120]}...")  # Mostrar los primeros 3
 
     # Cambiar a Diamantes
-    print()
-    print("[*] Cambia MANUALMENTE al tab DIAMANTES")
+    log_message("")
+    log_message("[*] Cambia MANUALMENTE al tab DIAMANTES")
     esperar_f12("[>] Presioná F12 cuando estés listo...")
 
     # Capturar DIAMANTES
-    print("[*] Capturando tab DIAMANTES...")
+    log_message("[*] Capturando tab DIAMANTES...")
     img_diamantes = capturar_ventana()
     if img_diamantes is None:
-        print("[ERROR] No se pudo capturar la ventana")
-        input("Presioná ENTER para salir")
-        exit(1)
+        log_message("[ERROR] No se pudo capturar la ventana")
+        return False
 
-    print("[*] Extrayendo items y precios de DIAMANTES...")
+    log_message("[*] Extrayendo items y precios de DIAMANTES...")
     items_diamantes = extraer_precios(img_diamantes)
-    print(f"[OK] Filas encontradas: {len(items_diamantes)}")
+    log_message(f"[OK] Filas encontradas: {len(items_diamantes)}")
     if items_diamantes:
         if isinstance(items_diamantes[0], dict):
             for i, row in enumerate(items_diamantes[:5]):
-                print(f"    {i+1}: item='{row.get('item','')[:40]}', price='{row.get('price','')}', sales='{row.get('sales','')}'")
+                log_message(f"    {i+1}: item='{row.get('item','')[:40]}', price='{row.get('price','')}', sales='{row.get('sales','')}'")
         else:
             for i, item in enumerate(items_diamantes[:3]):
-                print(f"    {i+1}: {item[:120]}...")
+                log_message(f"    {i+1}: {item[:120]}...")
 
     # Guardar en Excel
-    print()
-    print("[*] Guardando en Excel...")
+    log_message("")
+    log_message("[*] Guardando en Excel...")
 
     # Construir DataFrame estructurado si OCR devolvió dicts
     rows = []
@@ -466,14 +475,14 @@ def main():
     df = pd.DataFrame(rows)
     df.to_excel(EXCEL_PATH, index=False)
 
-    print()
-    print("========================================")
-    print("[OK] Proceso finalizado")
-    print(f"[OK] Excel generado: {EXCEL_PATH}")
-    print(f"[OK] Total filas WEMIX: {len(items_wemix)}")
-    print(f"[OK] Total filas DIAMANTES: {len(items_diamantes)}")
-    print("========================================")
-    esperar_f12("[>] Presioná F12 para salir...")
+    log_message("")
+    log_message("========================================")
+    log_message("[OK] Proceso finalizado")
+    log_message(f"[OK] Excel generado: {EXCEL_PATH}")
+    log_message(f"[OK] Total filas WEMIX: {len(items_wemix)}")
+    log_message(f"[OK] Total filas DIAMANTES: {len(items_diamantes)}")
+    log_message("========================================")
+    return True
 
 
 if __name__ == '__main__':

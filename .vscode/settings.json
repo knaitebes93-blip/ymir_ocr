@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^git remote add origin https://github\\.com/knaitebes93-blip/ymir_ocr$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

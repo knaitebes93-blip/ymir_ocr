@@ -1,0 +1,237 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                     TARJETA DE REFERENCIA RÁPIDA                           ║
+║        Legend of Ymir OCR Market - Interfaz Gráfica v2.0                   ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+┌─ EJECUTAR (LO MÁS IMPORTANTE) ──────────────────────────────────────────┐
+│                                                                          │
+│  🎯 PARA USAR LA INTERFAZ GRÁFICA:                                      │
+│                                                                          │
+│     Doble-clic en: ejecutar_gui.bat                                     │
+│                                                                          │
+│  ✓ Se abre automáticamente                                              │
+│  ✓ Se instalan dependencias si falta                                    │
+│  ✓ No necesitas PowerShell ni CMD                                       │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ PRIMER TIEMPO (CONFIGURACIÓN) ─────────────────────────────────────────┐
+│                                                                          │
+│  1. Abre PowerShell/CMD en la carpeta del programa                      │
+│                                                                          │
+│  2. Ejecuta:                                                            │
+│     python select_rois_tk.py                                            │
+│                                                                          │
+│  3. Dibuja los rectángulos (item, price, sales)                         │
+│                                                                          │
+│  4. Se crea rois.json automáticamente                                   │
+│                                                                          │
+│  ✓ Solo necesitas hacer esto una vez!                                   │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+
+
+┌─ USAR EL PROGRAMA ──────────────────────────────────────────────────────┐
+│                                                                          │
+│  1. Doble-clic: ejecutar_gui.bat                                        │
+│                                                                          │
+│  2. Abre Legend of Ymir (el juego)                                      │
+│                                                                          │
+│  3. Clic en: [▶ Iniciar Extracción]                                     │
+│                                                                          │
+│  4. Sigue instrucciones en los logs:                                    │
+│     • Abre Market (WEMIX)                                               │
+│     • Presiona F12 en el juego                                          │
+│     • Espera a que capture                                              │
+│     • Cambia a Market DIAMANTES                                         │
+│     • Presiona F12 de nuevo                                             │
+│                                                                          │
+│  5. ¡Listo! Excel generado: precios_market.xlsx                         │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+
+
+BOTONES DE LA INTERFAZ
+══════════════════════════════════════════════════════════════════════════════
+
+[▶ Iniciar Extracción]  │  Comienza el proceso (verde)
+                        │
+
+[🗑️ Limpiar Logs]        │  Borra los mensajes (gris)
+                        │
+
+[❌ Salir]              │  Cierra el programa (rojo)
+
+
+ARCHIVOS IMPORTANTES
+══════════════════════════════════════════════════════════════════════════════
+
+ejecutar_gui.bat        ← Ejecutor principal (doble-clic)
+gui_main.py             ← Interfaz gráfica
+ocr_market.py           ← Motor OCR
+rois.json               ← Configuración de columnas (crear primero)
+precios_market.xlsx     ← Resultado (Excel generado)
+
+
+FLUJO DEL PROGRAMA
+══════════════════════════════════════════════════════════════════════════════
+
+Inicio
+  ↓
+¿Existe rois.json?
+  ├─ NO → Ejecuta: python select_rois_tk.py
+  └─ SÍ → Continúa
+  ↓
+Detecta ventana del juego
+  ├─ NO → Error: "Abre el juego primero"
+  └─ SÍ → Continúa
+  ↓
+Espera F12 para captura WEMIX
+  ↓
+Extrae precios de WEMIX
+  ↓
+Espera F12 para captura DIAMANTES
+  ↓
+Extrae precios de DIAMANTES
+  ↓
+Genera precios_market.xlsx
+  ↓
+Fin
+
+
+COLORES DE LOGS
+══════════════════════════════════════════════════════════════════════════════
+
+Verde   [*] [OK]      → Información / Éxito
+Rojo    [ERROR]       → Error importante
+Naranja [WARN]        → Advertencia
+Azul    [DEBUG]       → Detalles técnicos
+
+
+PROBLEMAS Y SOLUCIONES
+══════════════════════════════════════════════════════════════════════════════
+
+Problema                          → Solución
+─────────────────────────────────────────────────────────────────────────────
+ejecutar_gui.bat no abre          → Instala Python desde python.org
+No encuentra ventana del juego    → Abre el juego, espera a que cargue
+"rois.json no encontrado"         → Ejecuta: python select_rois_tk.py
+Error de OCR                      → Intenta primera vez (descarga modelos)
+No captura la ventana             → Asegura que Market es visible
+"ModuleNotFoundError" error       → Ejecuta: pip install -r requirements.txt
+
+
+ARCHIVOS NUEVOS CREADOS
+══════════════════════════════════════════════════════════════════════════════
+
+✨ gui_main.py              Interfaz gráfica principal
+✨ ejecutar_gui.bat         Ejecutor con instalación automática
+✨ LEEME_PRIMERO.txt        Guía visual paso a paso (EMPIEZA AQUÍ)
+✨ CAMBIOS_INTERFAZ.md      Resumen de cambios vs versión anterior
+✨ GUIA_INTERFAZ_GRAFICA.txt Guía detallada completa
+✨ README_GUI.md            Documentación técnica
+✨ TARJETA_RAPIDA.txt       Este archivo
+
+
+INTERFAZ GRÁFICA
+══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────┐
+│ Título: Legend of Ymir - OCR Market │  ← Encabezado azul
+├─────────────────────────────────────┤
+│                                     │
+│ 📋 Registro de actividades:         │  ← Área de logs (principal)
+│ ┌───────────────────────────────┐  │
+│ │ [HH:MM:SS] Mensaje con color  │  │  Verde/Rojo/Naranja/Azul
+│ │ [HH:MM:SS] Otro mensaje       │  │  Auto-scroll hacia fin
+│ │ ...                            │  │  Copy-paste habilitado
+│ └───────────────────────────────┘  │
+│                                     │
+│ Progreso: [████░░░░░░░░░░░░░]      │  ← Indicador animado
+│                                     │
+│ [Status: Listo]                    │  ← Estado dinámico
+│                                     │
+│ [▶ Iniciar] [🗑️ Limpiar] [❌ Salir] │  ← Botones interactivos
+└─────────────────────────────────────┘
+
+
+ATAJOS Y REFERENCIAS
+══════════════════════════════════════════════════════════════════════════════
+
+Tarea                               Comando
+─────────────────────────────────────────────────────────────────────────────
+Ejecutar GUI                        Doble-clic: ejecutar_gui.bat
+Ejecutar GUI (alternativo)          python gui_main.py
+Configurar ROIs                     python select_rois_tk.py
+Ver Excel generado                  Abre: precios_market.xlsx
+Instalar dependencias               pip install -r requirements.txt
+Ver versión de Python               python --version
+
+
+ESTRUCTURA DE CARPETAS
+══════════════════════════════════════════════════════════════════════════════
+
+ymir_ocr/
+├── gui_main.py ........................ ← Nuevo: Interfaz
+├── ejecutar_gui.bat ................... ← Nuevo: Ejecutor
+├── ocr_market.py ...................... ← Modificado
+├── select_rois_tk.py
+├── check_excel.py
+├── show_excel.py
+├── rois.json .......................... ← Necesario
+├── precios_market.xlsx ................ ← Generado
+├── requirements.txt
+├── debug_cols/ ........................ ← Debug images
+└── ...
+
+
+TIPS Y TRUCOS
+══════════════════════════════════════════════════════════════════════════════
+
+1. Primera ejecución: EasyOCR descarga ~150MB (tarda), después rápido
+2. ROIs importa: Ajusta bien, OCR depende de esto
+3. F12 debe estar en el juego, no en la interfaz
+4. Coloca el juego al lado de la interfaz (split screen)
+5. Usa Ctrl+C en PowerShell si quieres detener
+6. Los logs tienen timestamps útiles para debug
+7. Carpeta debug_cols/ muestra qué detectó el OCR
+
+
+VERSIÓN & INFO
+══════════════════════════════════════════════════════════════════════════════
+
+Nombre:     Legend of Ymir OCR Market Extractor
+Versión:    2.0 (Con interfaz gráfica)
+Python:     3.8+ necesario
+Motor OCR:  EasyOCR
+Plataforma: Windows (también Linux/MacOS)
+Licencia:   Uso personal
+Fecha:      Febrero 2025
+
+
+CONTACTO & SOPORTE
+══════════════════════════════════════════════════════════════════════════════
+
+Documentación:
+  • LEEME_PRIMERO.txt (comienza aquí)
+  • GUIA_INTERFAZ_GRAFICA.txt (guía detallada)
+  • README_GUI.md (docs técnicas)
+  • CAMBIOS_INTERFAZ.md (novedades)
+
+En caso de error:
+  1. Revisa logs en la interfaz
+  2. Lee GUIA_INTERFAZ_GRAFICA.txt > SOLUCIÓN DE PROBLEMAS
+  3. Ejecuta: python select_rois_tk.py nuevamente
+
+
+═════════════════════════════════════════════════════════════════════════════
+
+                    🚀 ¡LISTO A USAR! 🚀
+
+                Doble-clic en: ejecutar_gui.bat
+                
+         ¡Disfruta de la nueva interfaz gráfica! ✨
+
+═════════════════════════════════════════════════════════════════════════════
