@@ -7,6 +7,7 @@ from ocr_market import capturar_ventana, obtener_ventana_juego
 
 try:
     import tkinter as tk
+    from tkinter import messagebox
     from PIL import Image, ImageTk
 except Exception as e:
     print('Tkinter/Pillow no disponibles:', e)
@@ -15,8 +16,13 @@ except Exception as e:
 
 
 class ROISelector:
-    def __init__(self, pil_image, labels=['item','price','sales']):
-        self.root = tk.Tk()
+    def __init__(self, pil_image, labels=['item','price','sales'], parent=None):
+        if parent is not None:
+            self.root = tk.Toplevel(parent)
+            self.root.transient(parent)
+            self.root.grab_set()
+        else:
+            self.root = tk.Tk()
         self.root.title('ROI Selector')
         self.labels = labels
         self.current = 0
@@ -94,7 +100,7 @@ class ROISelector:
 
     def confirm(self):
         if not self.rect:
-            tk.messagebox.showwarning('No selection','Draw a rectangle before confirming')
+            messagebox.showwarning('No selection','Draw a rectangle before confirming')
             return
         x0, y0, x1, y1 = [float(v) for v in self.canvas.coords(self.rect)]
         # normalize and map back to original image coords
@@ -115,7 +121,7 @@ class ROISelector:
         self.rois[label] = {'x': [rel_left, rel_right], 'y': [rel_top, rel_bottom]}
         self.current += 1
         if self.current >= len(self.labels):
-            self.root.quit()
+            self.root.destroy()
             return
         self.label_var.set(f'Select column: {self.labels[self.current]} (drag rectangle)')
         # remove previous rect and continue
@@ -125,10 +131,13 @@ class ROISelector:
 
     def cancel(self):
         self.rois = {}
-        self.root.quit()
+        self.root.destroy()
 
     def run(self):
-        self.root.mainloop()
+        if isinstance(self.root, tk.Toplevel):
+            self.root.wait_window()
+        else:
+            self.root.mainloop()
         return self.rois
 
 

@@ -9,3 +9,5 @@ pygetwindow
 keyboard
 paddleocr
 paddlepaddle
+gspread
+google-auth
